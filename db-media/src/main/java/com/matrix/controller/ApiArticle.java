@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.matrix.base.BaseApi;
 import com.matrix.pojo.entity.McArticleType;
 import com.matrix.service.IMcArticleTypeService;
 
@@ -22,7 +21,7 @@ import com.matrix.service.IMcArticleTypeService;
  */
 @Controller
 @RequestMapping("api")
-public class ApiArticle extends BaseApi{
+public class ApiArticle {          //  extends BaseApi
 	private static Logger logger = Logger.getLogger(MediaCenterController.class);
 
 	@Autowired
@@ -39,7 +38,7 @@ public class ApiArticle extends BaseApi{
 	@RequestMapping(value = "api_article_list_data_page", produces = { "application/json;charset=utf-8" })
 	@ResponseBody
 	public JSONObject ajax_article_list_data_page(McArticleType e , HttpServletRequest request , HttpSession session) {
-		super.userBehavior(session , logger , "ajax_edit_assort" , "更新分类记录");   
+//		super.userBehavior(session , logger , "ajax_edit_assort" , "更新分类记录");   
 		return mcArticleTypeService.ajaxReleasedArticleInfo();  
 	} 
 	

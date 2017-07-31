@@ -19,8 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.matrix.base.BaseClass;
-import com.matrix.helper.JsonHelper;
-import com.matrix.imageComPress.MFileItem;
+//import com.matrix.imageComPress.MFileItem;
 import com.matrix.pojo.entity.McArticleInfo;
 import com.matrix.pojo.view.ProductInfo;
 import com.matrix.util.IoUtil;
@@ -66,17 +65,17 @@ public class ReleaseToCdnSupport extends BaseClass{
 		/**
 		 * 压缩图片
 		 */
-		Map<String, String> compressArticleImage = this.compressArticleImage(e);//进行压缩
-		Set<String> newImgKeySet = compressArticleImage.keySet();
-		//压缩后的图片替换
-		for (String imgkey : newImgKeySet) {
-			if(StringUtils.isNotBlank(ueditContent)) {
-				ueditContent = ueditContent.replaceAll(imgkey, compressArticleImage.get(imgkey));
-			}
-			if(StringUtils.isNotBlank(parseProductInfo)) {
-				parseProductInfo = parseProductInfo.replaceAll(imgkey, compressArticleImage.get(imgkey));
-			}
-		}
+//		Map<String, String> compressArticleImage = this.compressArticleImage(e);//进行压缩
+//		Set<String> newImgKeySet = compressArticleImage.keySet();
+//		//压缩后的图片替换
+//		for (String imgkey : newImgKeySet) {
+//			if(StringUtils.isNotBlank(ueditContent)) {
+//				ueditContent = ueditContent.replaceAll(imgkey, compressArticleImage.get(imgkey));
+//			}
+//			if(StringUtils.isNotBlank(parseProductInfo)) {
+//				parseProductInfo = parseProductInfo.replaceAll(imgkey, compressArticleImage.get(imgkey));
+//			}
+//		}
 		
 		JSONObject result = this.htmlDocInit(ueditContent , parseProductInfo, target , e);
 		if(result.getString("status").equals("success")){
@@ -302,77 +301,58 @@ public class ReleaseToCdnSupport extends BaseClass{
 		return html;
 	}
 	
-	public Map<String, String> compressArticleImage (McArticleInfo e) {
-		Map<String, String> map = new HashMap<String, String>();//存放压缩前后的图片，key:oldImage  ; value:newImage;  用map也为了去重
-		
-		//获取编辑器内容图片
-		String htmlContent = e.getHtmlContent();
-		if(StringUtils.isNotBlank(htmlContent)) {
-			String[] arr = htmlContent.split("<img");
-			for (int i = 1; i < arr.length; i++) {//从第二个元素开始取图片链接
-				
-				int beginIndex = arr[i].indexOf("http");
-				int endIndex = arr[i].indexOf("\"", beginIndex);
-				if(beginIndex < endIndex) {
-					String src = arr[i].substring(beginIndex, endIndex);
-					map.put(src, "");
-				}
-				
-			}
-		}
-		
-		//获取商品图片
-		String relProductInfoJson = e.getRelProductInfoJson();
-		if(StringUtils.isNotBlank(relProductInfoJson)) {
-			JSONArray productList = JsonHelper.fromJson(relProductInfoJson, new JSONArray());
-			for (Object object : productList) {
-				JSONObject productInfo = (JSONObject) object;
-				String img = productInfo.getString("productImg");
-				if(StringUtils.isNotBlank(img)) {
-					map.put(img, "");
-				}
-			}
-		}
-		Set<String> keySet = map.keySet();
-		List<String> compressImgList = new ArrayList<String>();
-//		System.out.println("======================需要压缩的图片=========================");
-		for (String key : keySet) {
-//			System.out.println(key);
-			compressImgList.add(key);
-		}
-//		System.out.println("=============================================================");
-		//进行图片压缩
-		if(compressImgList.size() > 0) {
-			Map<String, MFileItem> uploadImage = FileUploadSupport.getInstance().uploadImage(compressImgList);
-			for (String key : keySet) {
-				if(uploadImage.containsKey(key)) {
-					map.put(key, uploadImage.get(key).getFileUrl());
-				}
-			}
-			
-		}
-		
-		return map;
-	}
-	
-	public static void main(String[] args) {
-		String str = "<p><img src=\"http://cfiles.beta.huijiayou.cn/cfiles/staticfiles/upload/29ad3/e8cb20c990a94a82a65c0c5483545624.jpg\" title=\"e8cb20c990a94a82a65c0c5483545624.jpg\" alt=\"2ef85bf0f4404c3ba9475f94e50f8ed3.jpg\"/></p><p><img src=\"http://cfiles.beta.huijiayou.cn/cfiles/staticfiles/upload/29ad3/2cbcdafce47d40d897e799efaf4de203.jpg\" title=\"2cbcdafce47d40d897e799efaf4de203.jpg\" alt=\"f666919edf8449a696d0dec73c645fcd.jpg\"/></p><p><img src=\"http://cfiles.beta.huijiayou.cn/cfiles/staticfiles/upload/29ad3/fd96ea2a7f1845a4a47c65781513cb45.jpg\" title=\"fd96ea2a7f1845a4a47c65781513cb45.jpg\" alt=\"0e487d2fc0ca47aebaa7cbe0e3722359.jpg\"/></p>";
-		String[] split = str.split("<img");
-		for (int i = 1; i < split.length; i++) {//从第二个元素开始取图片链接
-			System.out.println(split[i]);
-			int beginIndex = split[i].indexOf("http");
-			int endIndex = split[i].indexOf("\"", beginIndex);
-			if(beginIndex <endIndex ) {
-				String src = split[i].substring(beginIndex, endIndex);
-				System.out.println(src);
-			}
-			
-			
-			
-		}
-		
-	}
-	
+//	public Map<String, String> compressArticleImage (McArticleInfo e) {
+//		Map<String, String> map = new HashMap<String, String>();//存放压缩前后的图片，key:oldImage  ; value:newImage;  用map也为了去重
+//		
+//		//获取编辑器内容图片
+//		String htmlContent = e.getHtmlContent();
+//		if(StringUtils.isNotBlank(htmlContent)) {
+//			String[] arr = htmlContent.split("<img");
+//			for (int i = 1; i < arr.length; i++) {//从第二个元素开始取图片链接
+//				
+//				int beginIndex = arr[i].indexOf("http");
+//				int endIndex = arr[i].indexOf("\"", beginIndex);
+//				if(beginIndex < endIndex) {
+//					String src = arr[i].substring(beginIndex, endIndex);
+//					map.put(src, "");
+//				}
+//				
+//			}
+//		}
+//		
+//		//获取商品图片
+//		String relProductInfoJson = e.getRelProductInfoJson();
+//		if(StringUtils.isNotBlank(relProductInfoJson)) {
+//			JSONArray productList = JsonHelper.fromJson(relProductInfoJson, new JSONArray());
+//			for (Object object : productList) {
+//				JSONObject productInfo = (JSONObject) object;
+//				String img = productInfo.getString("productImg");
+//				if(StringUtils.isNotBlank(img)) {
+//					map.put(img, "");
+//				}
+//			}
+//		}
+//		Set<String> keySet = map.keySet();
+//		List<String> compressImgList = new ArrayList<String>();
+////		System.out.println("======================需要压缩的图片=========================");
+//		for (String key : keySet) {
+////			System.out.println(key);
+//			compressImgList.add(key);
+//		}
+////		System.out.println("=============================================================");
+//		//进行图片压缩
+//		if(compressImgList.size() > 0) {
+//			Map<String, MFileItem> uploadImage = FileUploadSupport.getInstance().uploadImage(compressImgList);
+//			for (String key : keySet) {
+//				if(uploadImage.containsKey(key)) {
+//					map.put(key, uploadImage.get(key).getFileUrl());
+//				}
+//			}
+//			
+//		}
+//		
+//		return map;
+//	}
 }
 
 
