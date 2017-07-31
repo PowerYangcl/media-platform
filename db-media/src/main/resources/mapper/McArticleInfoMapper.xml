@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.matrix.dao.IMcArticleInfoDao">
+
+	<resultMap id="BaseResultMap" type="com.matrix.pojo.entity.McArticleInfo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="title_pic" property="titlePic" jdbcType="VARCHAR" />
+		<result column="source" property="source" jdbcType="VARCHAR" />
+		<result column="author" property="author" jdbcType="VARCHAR" />
+		<result column="author_id" property="authorId" jdbcType="INTEGER" />
+		<result column="editor" property="editor" jdbcType="VARCHAR" />
+		<result column="editor_id" property="editorId" jdbcType="INTEGER" />
+		<result column="release_type" property="releaseType" jdbcType="CHAR" />
+		<result column="releaser" property="releaser" jdbcType="VARCHAR" />
+		<result column="release_time" property="releaseTime" jdbcType="TIMESTAMP" />
+		<result column="article_type_id" property="articleTypeId" jdbcType="INTEGER" />
+		<result column="reader_count" property="readerCount" jdbcType="INTEGER" />
+		<result column="thumbs_up_count" property="thumbsUpCount" jdbcType="INTEGER" />
+		<result column="share_count" property="shareCount" jdbcType="INTEGER" />
+		<result column="top_type" property="topType" jdbcType="CHAR" />
+		<result column="source_link" property="sourceLink" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="html_content" property="htmlContent" jdbcType="LONGVARCHAR" />
+		<result column="to_release_source" property="toReleaseSource" jdbcType="VARCHAR" />
+		<result column="recycle_bin_source" property="recycleBinSource" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="rel_product_json" property="relProductInfoJson" jdbcType="LONGVARCHAR" />
+		<result column="out_url" property="outUrl" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+			*
+		from 
+			mediacenter.mc_article_info
+		where 
+			id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<!-- 开始分页查询 -->
+	<resultMap id="McArticleInfoView" type="com.matrix.pojo.view.McArticleInfoView">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="title_pic" property="titlePic" jdbcType="VARCHAR" />
+		<result column="source" property="source" jdbcType="VARCHAR" />
+		<result column="author" property="author" jdbcType="VARCHAR" />
+		<result column="author_id" property="authorId" jdbcType="INTEGER" />
+		<result column="editor" property="editor" jdbcType="VARCHAR" />
+		<result column="editor_id" property="editorId" jdbcType="INTEGER" />
+		<result column="release_type" property="releaseType" jdbcType="CHAR" />
+		<result column="releaser" property="releaser" jdbcType="VARCHAR" />
+		<result column="release_time" property="releaseTime" jdbcType="TIMESTAMP" />
+		<result column="article_type_id" property="articleTypeId" jdbcType="INTEGER" />
+		<result column="reader_count" property="readerCount" jdbcType="INTEGER" />
+		<result column="thumbs_up_count" property="thumbsUpCount" jdbcType="INTEGER" />
+		<result column="share_count" property="shareCount" jdbcType="INTEGER" />
+		<result column="top_type" property="topType" jdbcType="CHAR" />
+		<result column="source_link" property="sourceLink" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="html_content" property="htmlContent" jdbcType="LONGVARCHAR" />
+		<result column="to_release_source" property="toReleaseSource" jdbcType="VARCHAR" />
+		<result column="recycle_bin_source" property="recycleBinSource" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="rel_product_json" property="relProductInfoJson" jdbcType="LONGVARCHAR" />
+		<result column="out_url" property="outUrl" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="queryPage" resultMap="McArticleInfoView" parameterType="com.matrix.pojo.entity.McArticleInfo">
+		select
+			ai.*,
+			at.name as assort
+		from 
+			mediacenter.mc_article_info ai left join mediacenter.mc_article_type at  on ai.article_type_id = at.id 
+		where 
+			ai.release_type = #{releaseType , jdbcType=CHAR} 
+			<if test="title != null and title != '' ">
+				and title like CONCAT('%' , '${title}' , '%' ) 
+			</if>
+			<if test="author != null and author != '' ">
+				and author like CONCAT('%' , '${author}' , '%' ) 
+			</if>
+			<if test="editor != null and editor != '' ">
+				and editor like CONCAT('%' , '${editor}' , '%' ) 
+			</if>
+			<if test="articleTypeId != null">
+				and article_type_id = #{articleTypeId , jdbcType=INTEGER} 
+			</if>
+			<if test="recycleBinSource != null and recycleBinSource != '' ">
+				and recycle_bin_source = #{recycleBinSource , jdbcType=VARCHAR} 
+			</if>
+			order by update_time desc
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from mediacenter.mc_article_info where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	
+	<insert id="insertSelective" parameterType="com.matrix.pojo.entity.McArticleInfo">
+		insert into mediacenter.mc_article_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="titlePic != null">
+				title_pic,
+			</if>
+			<if test="source != null">
+				source,
+			</if>
+			<if test="author != null">
+				author,
+			</if>
+			<if test="authorId != null">
+				author_id,
+			</if>
+			<if test="editor != null">
+				editor,
+			</if>
+			<if test="editorId != null">
+				editor_id,
+			</if>
+			<if test="releaseType != null">
+				release_type,
+			</if>
+			<if test="releaser != null">
+				releaser,
+			</if>
+			<if test="releaseTime != null">
+				release_time,
+			</if>
+			<if test="articleTypeId != null">
+				article_type_id,
+			</if>
+			<if test="readerCount != null">
+				reader_count,
+			</if>
+			<if test="thumbsUpCount != null">
+				thumbs_up_count,
+			</if>
+			<if test="shareCount != null">
+				share_count,
+			</if>
+			<if test="topType != null">
+				top_type,
+			</if>
+			<if test="sourceLink != null">
+				source_link,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="htmlContent != null">
+				html_content,
+			</if>
+			<if test="toReleaseSource != null">
+				to_release_source,
+			</if>
+			<if test="recycleBinSource != null">
+				recycle_bin_source,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="relProductInfoJson != null" >
+				rel_product_json,
+			</if>
+			<if test="outUrl != null" >
+				out_url,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="titlePic != null">
+				#{titlePic,jdbcType=VARCHAR},
+			</if>
+			<if test="source != null">
+				#{source,jdbcType=VARCHAR},
+			</if>
+			<if test="author != null">
+				#{author,jdbcType=VARCHAR},
+			</if>
+			<if test="authorId != null">
+				#{authorId,jdbcType=INTEGER},
+			</if>
+			<if test="editor != null">
+				#{editor,jdbcType=VARCHAR},
+			</if>
+			<if test="editorId != null">
+				#{editorId,jdbcType=INTEGER},
+			</if>
+			<if test="releaseType != null">
+				#{releaseType,jdbcType=CHAR},
+			</if>
+			<if test="releaser != null">
+				#{releaser , jdbcType=VARCHAR},
+			</if>
+			<if test="releaseTime != null">
+				#{releaseTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="articleTypeId != null">
+				#{articleTypeId,jdbcType=INTEGER},
+			</if>
+			<if test="readerCount != null">
+				#{readerCount,jdbcType=INTEGER},
+			</if>
+			<if test="thumbsUpCount != null">
+				#{thumbsUpCount,jdbcType=INTEGER},
+			</if>
+			<if test="shareCount != null">
+				#{shareCount,jdbcType=INTEGER},
+			</if>
+			<if test="topType != null">
+				#{topType,jdbcType=CHAR},
+			</if>
+			<if test="sourceLink != null">
+				#{sourceLink,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="htmlContent != null">
+				#{htmlContent,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="toReleaseSource != null">
+				#{toReleaseSource , jdbcType=VARCHAR},
+			</if>
+			<if test="recycleBinSource != null">
+				#{recycleBinSource , jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark , jdbcType=VARCHAR},
+			</if>
+			<if test="relProductInfoJson != null">
+				#{relProductInfoJson,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="outUrl != null">
+				#{outUrl , jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateSelective" parameterType="com.matrix.pojo.entity.McArticleInfo">
+		update mediacenter.mc_article_info
+		<set>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="titlePic != null">
+				title_pic = #{titlePic,jdbcType=VARCHAR},
+			</if>
+			<if test="source != null">
+				source = #{source,jdbcType=VARCHAR},
+			</if>
+			<if test="author != null">
+				author = #{author,jdbcType=VARCHAR},
+			</if>
+			<if test="authorId != null">
+				author_id = #{authorId,jdbcType=INTEGER},
+			</if>
+			<if test="editor != null">
+				editor = #{editor,jdbcType=VARCHAR},
+			</if>
+			<if test="editorId != null">
+				editor_id = #{editorId,jdbcType=INTEGER},
+			</if>
+			<if test="releaseType != null">
+				release_type = #{releaseType,jdbcType=CHAR},
+			</if>
+			<if test="releaser != null">
+				releaser = #{releaser ,jdbcType=VARCHAR},
+			</if>
+			<if test="releaseTime != null">
+				release_time = #{releaseTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="articleTypeId != null">
+				article_type_id = #{articleTypeId,jdbcType=INTEGER},
+			</if>
+			<if test="readerCount != null">
+				reader_count = #{readerCount,jdbcType=INTEGER},
+			</if>
+			<if test="thumbsUpCount != null">
+				thumbs_up_count = #{thumbsUpCount,jdbcType=INTEGER},
+			</if>
+			<if test="shareCount != null">
+				share_count = #{shareCount,jdbcType=INTEGER},
+			</if>
+			<if test="topType != null">
+				top_type = #{topType,jdbcType=CHAR},
+			</if>
+			<if test="sourceLink != null">
+				source_link = #{sourceLink,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="htmlContent != null">
+				html_content = #{htmlContent,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="toReleaseSource != null">
+				to_release_source = #{toReleaseSource , jdbcType=VARCHAR},
+			</if>
+			<if test="recycleBinSource != null">
+				recycle_bin_source = #{recycleBinSource , jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark , jdbcType=VARCHAR},
+			</if>
+			<if test="relProductInfoJson != null">
+				rel_product_json = #{relProductInfoJson,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="outUrl != null">
+				out_url = #{outUrl , jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+

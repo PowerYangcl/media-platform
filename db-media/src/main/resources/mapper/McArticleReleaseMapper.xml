@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.matrix.dao.IMcArticleReleaseDao">
+
+	<resultMap id="BaseResultMap" type="com.matrix.pojo.entity.McArticleRelease">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="article_info_id" property="articleInfoId" jdbcType="INTEGER" />
+		<result column="flag" property="flag" jdbcType="INTEGER" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="releaser_id" property="releaserId" jdbcType="INTEGER" />
+		<result column="releaser" property="releaser" jdbcType="VARCHAR" />
+		<result column="release_time" property="releaseTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+			*
+		from 
+			mediacenter.mc_article_release
+		where 
+			id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="findByArticleRelease" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+			*
+		from 
+			mediacenter.mc_article_release
+		where 
+			1=1
+		<if test="id != null">
+			and id = #{id,jdbcType=INTEGER}
+		</if>
+		<if test="articleInfoId != null">
+			and article_info_id = #{articleInfoId,jdbcType=INTEGER}
+		</if>
+		<if test="flag != null">
+			and flag = #{flag,jdbcType=INTEGER}
+		</if>
+		<if test="url != null">
+			and url = #{url,jdbcType=VARCHAR}
+		</if>
+		<if test="releaserId != null">
+			and releaser_id = #{releaserId,jdbcType=INTEGER}
+		</if>
+		<if test="releaser != null">
+			and releaser = #{releaser,jdbcType=VARCHAR}
+		</if>
+		<if test="releaseTime != null">
+			and release_time = #{releaseTime,jdbcType=TIMESTAMP}
+		</if>
+	</select>
+	
+	<select id="findByArticleIds" resultMap="BaseResultMap" parameterType="java.util.List">
+		select
+			*
+		from 
+			mediacenter.mc_article_release
+		where 1 = 1 
+		<if test="type!=null and type!=''">  
+		    AND type = #{type}  
+		</if> 
+		<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">  
+		  #{item}  
+		 </foreach>
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from mediacenter.mc_article_release where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="insertSelective" parameterType="com.matrix.pojo.entity.McArticleRelease">
+		insert into mediacenter.mc_article_release
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="articleInfoId != null">
+				article_info_id,
+			</if>
+			<if test="flag != null">
+				flag,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+			<if test="releaserId != null">
+				releaser_id,
+			</if>
+			<if test="releaser != null">
+				releaser,
+			</if>
+			<if test="releaseTime != null">
+				release_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="articleInfoId != null">
+				#{articleInfoId,jdbcType=INTEGER},
+			</if>
+			<if test="flag != null">
+				#{flag,jdbcType=INTEGER},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="releaserId != null">
+				#{releaserId,jdbcType=INTEGER},
+			</if>
+			<if test="releaser != null">
+				#{releaser,jdbcType=VARCHAR},
+			</if>
+			<if test="releaseTime != null">
+				#{releaseTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateSelective" parameterType="com.matrix.pojo.entity.McArticleRelease">
+		update mediacenter.mc_article_release
+		<set>
+			<if test="articleInfoId != null">
+				article_info_id = #{articleInfoId,jdbcType=INTEGER},
+			</if>
+			<if test="flag != null">
+				flag = #{flag,jdbcType=INTEGER},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="releaserId != null">
+				releaser_id = #{releaserId,jdbcType=INTEGER},
+			</if>
+			<if test="releaser != null">
+				releaser = #{releaser,jdbcType=VARCHAR},
+			</if>
+			<if test="releaseTime != null">
+				release_time = #{releaseTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByArticleInfoId" parameterType="com.matrix.pojo.entity.McArticleRelease">
+		update mediacenter.mc_article_release
+		<set> 
+			<if test="flag != null">
+				flag = #{flag,jdbcType=INTEGER},
+			</if>   
+		</set>
+		where article_info_id = #{articleInfoId , jdbcType=INTEGER}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

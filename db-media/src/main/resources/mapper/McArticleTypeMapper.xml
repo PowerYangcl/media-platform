@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.matrix.dao.IMcArticleTypeDao">
+	<resultMap id="BaseResultMap" type="com.matrix.pojo.entity.McArticleType">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+		<result column="exta" property="exta" jdbcType="VARCHAR" />
+		<result column="extb" property="extb" jdbcType="VARCHAR" />
+		<result column="extc" property="extc" jdbcType="VARCHAR" />
+		<result column="extd" property="extd" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">   
+		select
+			*
+		from 
+			mediacenter.mc_article_type
+		where 
+			id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	
+	<!-- 分页查询 -->
+	<resultMap id="McArticleTypeView" type="com.matrix.pojo.view.McArticleTypeView">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+	</resultMap>
+	<select id="queryPage" parameterType="com.matrix.pojo.entity.McArticleType" resultMap="McArticleTypeView">
+		select 
+		  	t.* ,
+		  	u.user_name as userName,
+		  	count(i.article_type_id) as articleSum
+		from
+		  	mediacenter.mc_article_type t left join mediacenter.`mc_article_info` i on t.id = i.article_type_id
+		  	left join managercenter.`mc_user_info` u on u.id = t.update_user_id 
+		 where 1 = 1
+		<if test="name != null and name != ''  ">
+			and name like CONCAT('%' , '${name}' , '%' )  
+		</if>
+		group by t.id 
+	</select>
+	
+	
+	<select id="findList" resultMap="BaseResultMap" parameterType="com.matrix.pojo.entity.McArticleType">   
+		select
+			*
+		from 
+			mediacenter.mc_article_type 
+	</select>
+	
+	
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from mediacenter.mc_article_type where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="insertSelective" parameterType="com.matrix.pojo.entity.McArticleType">
+		insert into mediacenter.mc_article_type
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="createUserId != null">
+				create_user_id,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="updateUserId != null">
+				update_user_id,
+			</if>
+			<if test="exta != null">
+				exta,
+			</if>
+			<if test="extb != null">
+				extb,
+			</if>
+			<if test="extc != null">
+				extc,
+			</if>
+			<if test="extd != null">
+				extd,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUserId != null">
+				#{createUserId,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUserId != null">
+				#{updateUserId , jdbcType=INTEGER},
+			</if>
+			<if test="exta != null">
+				#{exta,jdbcType=VARCHAR},
+			</if>
+			<if test="extb != null">
+				#{extb,jdbcType=VARCHAR},
+			</if>
+			<if test="extc != null">
+				#{extc,jdbcType=VARCHAR},
+			</if>
+			<if test="extd != null">
+				#{extd,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateSelective" parameterType="com.matrix.pojo.entity.McArticleType">
+		update mediacenter.mc_article_type
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUserId != null">
+				create_user_id = #{createUserId,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUserId != null">
+				update_user_id = #{updateUserId , jdbcType=INTEGER},
+			</if>
+			<if test="exta != null">
+				exta = #{exta,jdbcType=VARCHAR},
+			</if>
+			<if test="extb != null">
+				extb = #{extb,jdbcType=VARCHAR},
+			</if>
+			<if test="extc != null">
+				extc = #{extc,jdbcType=VARCHAR},
+			</if>
+			<if test="extd != null">
+				extd = #{extd,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+</mapper>
+
+
+

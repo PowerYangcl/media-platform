@@ -1,0 +1,72 @@
+.huiList{overflow: hidden;}
+.huiList li{
+	padding:.1rem .1rem .1rem .15rem;
+	margin-top: .05rem;
+	position: relative;
+	background: #fff;
+	overflow: hidden;
+}
+.huiList li .hui_img{
+	width: 1.2rem;
+	height: .9rem;
+	float: right;
+}
+.huiList li .hui_img img{width: 100%;height: 100%;}
+.huiList li .hui_txt{
+	overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-size: .16rem;
+    line-height: .21rem;
+    color: #222;
+    padding-right: .1rem;
+}
+.hui_passBy {
+    font-size: .12rem;
+    line-height: .17rem;
+    color: #999;
+    position: absolute;
+    left: .15rem;
+    bottom: .12rem;
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 1.4rem;
+	overflow: hidden;
+}
+.hui_passBy span{
+	position: relative;
+}
+.hui_passBy>span{
+	float: left;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    padding-right: .07rem;
+}
+    
+.hui_passBy span.looked,.hui_passBy span.like{margin-left: .13rem; margin-right: .12rem; float: left;}
+.hui_passBy span.looked:before{
+	content: "";
+	width: .13rem;
+	height: .13rem;
+	background: url(../../../images/web/articleList/eye.png) no-repeat;
+	background-size: 100%;
+	position: absolute;
+	left: -.17rem;
+	top: .02rem;
+}
+.hui_passBy span.like:before{
+	content: "";
+	width: .13rem;
+	height: .13rem;
+	background: url(../../../images/web/articleList/zan.png) no-repeat;
+	background-size: 100%;
+	position: absolute;
+	left: -.17rem;
+	top: .015rem;
+}
+.zanWrap{float: left; padding-left: .05rem; overflow: hidden;}
