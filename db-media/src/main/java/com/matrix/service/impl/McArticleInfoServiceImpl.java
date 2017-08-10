@@ -52,7 +52,7 @@ public class McArticleInfoServiceImpl extends BaseServiceImpl<McArticleInfo, Int
 	 */
 	public JSONObject ajaxArticleList(McArticleInfo e, HttpServletRequest request, HttpSession session) {
 		JSONObject r = super.ajaxPageData(e, request);
-		if(r.getString("status").equals("success")){
+		/*if(r.getString("status").equals("success")){
 			JSONObject data = r.getJSONObject("data");
 			JSONArray list = new JSONArray();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -74,7 +74,7 @@ public class McArticleInfoServiceImpl extends BaseServiceImpl<McArticleInfo, Int
 			}  
 			data.put("list", list); 
 			r.put("data", data); 
-		}
+		}*/
 		
 		r.put("atlist", mcArticleTypeDao.findList(new McArticleType())); 
 		return r;
