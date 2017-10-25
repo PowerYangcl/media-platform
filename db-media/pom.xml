@@ -23,6 +23,11 @@
 			<artifactId>matrix-cache</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.matrix</groupId>
+			<artifactId>matrix-file</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 </project>
 
