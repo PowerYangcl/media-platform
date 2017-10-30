@@ -50,25 +50,7 @@ public class McArticleTypeServiceImpl extends BaseServiceImpl<McArticleType, Int
 	 */
 	@Override
 	public JSONObject ajaxArticleAssortList(McArticleType e , HttpServletRequest request, HttpSession session) {
-		JSONObject r = super.ajaxPageData(e, request);
-		/*if(r.getString("status").equals("success")){
-			JSONObject data = r.getJSONObject("data");
-			JSONArray list = new JSONArray();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			for(int i = 0 ; i < data.getJSONArray("list").size() ; i ++){
-				Date ctime = data.getJSONArray("list").getJSONObject(i).getDate("createTime");
-				String cdate = sdf.format(ctime); 
-				Date utime = data.getJSONArray("list").getJSONObject(i).getDate("updateTime");
-				String udate = sdf.format(utime); 
-				JSONObject o = data.getJSONArray("list").getJSONObject(i);
-				o.put("createTime", cdate);
-				o.put("updateTime", udate);
-				list.add(o);
-			}  
-			data.put("list", list); 
-			r.put("data", data); 
-		}*/
-		return r;
+		return super.ajaxPageData(e, request);
 	}
 
 	
