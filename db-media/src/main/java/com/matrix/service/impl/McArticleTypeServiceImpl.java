@@ -160,10 +160,10 @@ public class McArticleTypeServiceImpl extends BaseServiceImpl<McArticleType, Int
 	public JSONObject ajaxReleasedArticleInfo() {
 		
 		JSONObject result = new JSONObject();
-		if(!launch.loadServiceCache(SCacheEnum.ArticleListPage).exists(LoadCacheReleasedArticleInfo.RELEASEDKEY)) {
+		if(!launch.loadServiceCache(SCacheEnum.ArticleListPage , null).exists(LoadCacheReleasedArticleInfo.RELEASEDKEY)) {
 			new LoadCacheReleasedArticleInfo().refresh();
 		}
-		String jsonStr = launch.loadServiceCache(SCacheEnum.ArticleListPage).get(LoadCacheReleasedArticleInfo.RELEASEDKEY);
+		String jsonStr = launch.loadServiceCache(SCacheEnum.ArticleListPage , null).get(LoadCacheReleasedArticleInfo.RELEASEDKEY);
 		result.put("status", "success");
 		result.put("data", jsonStr);
 		return result;

@@ -86,7 +86,7 @@ public class LoadCacheReleasedArticleInfo extends BaseClass implements IBaseCach
 			}
 			saveList.add(releasedInfo);
 		}
-		launch.loadServiceCache(SCacheEnum.ArticleListPage).set(RELEASEDKEY, JSONObject.toJSONString(saveList));
+		launch.loadServiceCache(SCacheEnum.ArticleListPage , null).set(RELEASEDKEY, JSONObject.toJSONString(saveList));
 		
 	}
 
@@ -95,7 +95,7 @@ public class LoadCacheReleasedArticleInfo extends BaseClass implements IBaseCach
 	 */
 	@Override
 	public void removeAll() {
-		launch.loadServiceCache(SCacheEnum.ArticleListPage).del(RELEASEDKEY);
+		launch.loadServiceCache(SCacheEnum.ArticleListPage , null).del(RELEASEDKEY);
 	}
 	
 	
