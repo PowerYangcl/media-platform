@@ -54,7 +54,7 @@ public class ReleaseToCdnSupport extends BaseClass{
 	 */
 	public JSONObject releaseArticleToCdn(McArticleInfo e){
 		String path_ = path + "media" + File.separator;
-		IoUtil.createDir(path_);
+		IoUtil.getInstance().createDir(path_);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 		String dateStr = sdf.format(new Date());
 		path_ = path_  + dateStr + ".html";
